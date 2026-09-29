@@ -1,0 +1,9 @@
+*.zip
+*.csv
+*.npy
+train_images/
+test_images/
+data/
+kaggle.json
+.ipynb_checkpoints/
+__pycache__/
