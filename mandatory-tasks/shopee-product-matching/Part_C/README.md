@@ -90,7 +90,7 @@ cosine, so both rank pairs identically; I did not run Euclidean separately.
 Mean-centred cosine helped CLIP and was a tie for ResNet50. Other metrics
 and learned metrics were not tried.
 
-**How does the threshold affect results?** [From your plot: below about 0.6
+**How does the threshold affect results?** about 0.6
 almost every pair passes and F1 falls under the floor; at 0.79 precision is
 0.938 and recall 0.626; above that precision approaches 1 and recall falls.]
 Best thresholds differ by method (0.79 ResNet, 0.83 CLIP), so thresholds
