@@ -161,3 +161,27 @@ BatchNorm forces regardless of collapse, so it was not informative.
 
 >> Next: run test once with threshold 0.445, then use the fine-tuned
 embeddings in the Finale.
+
+
+## 2026-10-02: final evaluation of the fine-tuned model on test
+>> Hypothesis:
+- the fine-tuned model should score above the frozen 0.68 on test, as it
+  did on val
+- test should be slightly below val, as in Parts B and C, since test has
+  larger groups and a lower floor
+- weights and threshold are fixed from val and nothing changes after seeing
+  test
+>> Setup: epoch-4 weights reloaded (check: val F1 0.7733 reproduced), test
+images embedded once, threshold 0.445 chosen on val.
+
+>> Result: test F1 0.7743 against a test floor of 0.4401 (frozen: 0.68).
+Closes 59.7% of the floor-to-perfect gap on test (57.8% on val; frozen
+42.8% on test).
+
+>> Observation: fine-tuning raised test F1 by 0.094. Test was 0.001 above val
+instead of below it; with a lower test floor I treat that as noise from one
+split. Fine-tuned image alone ties word TF-IDF on test (0.7741). Nothing
+was changed after seeing the result.
+
+>> Next: error analysis of the fine-tuned model, README, then the Finale with
+the new embeddings.
