@@ -34,3 +34,27 @@ improvement from a single split.
 RT100Q and RT130 scored 1.0.
 
 
+
+## 2026-10-02: Experiment 2, fit the vectoriser on the val titles
+Hypothesis: RT100Q and RT130 were not in the train vocabulary, so the
+vectoriser ignored both and the two powerbank titles became identical.
+If I fit on the val titles (no labels are used), both codes become real
+tokens, so I expect the pair to drop below 1.0. I expect overall F1 to
+rise slightly, because val-only words now count.
+Setup: TfidfVectorizer(lowercase=True) fitted on val.title, same sweep.
+
+Result: best val F1 0.7763 at threshold 0.40 (baseline 0.7632 at 0.45).
+My first two lookups of the RT100Q/RT130 pair picked the wrong listings,
+so I selected the highest-scoring of the 14 false matches. Its
+similarity: baseline 1.000, single chars kept 1.000, fitted on val 0.906.
+
+Observation: the hypothesis held. Both codes were missing from the train
+vocabulary, so they were ignored; once the vectoriser saw the val titles
+the pair dropped from 1.0 to 0.906. It is still far above the threshold,
+because the titles share nearly every other word. All four RT100Q/RT130
+pairs I printed fell under val-fitting. Overall F1 rose by 0.0131 and
+the best threshold moved to 0.40. At test time I must fit on the test
+titles in the same way
+
+Next: experiment 3, character n-grams.
+
