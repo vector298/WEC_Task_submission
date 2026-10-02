@@ -125,9 +125,7 @@ nothing (+0.0001 at weight 0.1, worse above).
 ## External resources
 torchvision ResNet50 (ImageNet weights), scikit-learn (TF-IDF, cosine
 similarity, GroupShuffleSplit). Kaggle Shopee - Price Match Guarantee data.
-AI assistance: [state honestly how you used AI tools, for example for
-explanation, debugging and drafting cells, and confirm you can explain every
-part].
+AI assistance: I have used Claude in order to learn and build this.
 
 ## How to rerun
 Open the notebook on Kaggle with the Shopee competition data attached, GPU on,
