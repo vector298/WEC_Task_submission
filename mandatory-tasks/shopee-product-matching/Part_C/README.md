@@ -54,16 +54,12 @@ test. Each configuration is one run on one split; differences of about 0.002
   same (42.8% against 42.6%), so the drop is mostly the lower test floor.
 
 ## Nearest-neighbour analysis
-[Describe the figure from cell 6: for each of three query images (from groups
-of at least 4 listings), how many of the five nearest neighbours are the same
-product (green) and which are different products (red), and why you think so.]
 
 ## Error analysis (ResNet50, threshold 0.79, val)
 Over val pairs: 4,516 correct, 1,422 false matches, 6,495 missed. Pooled pair
 recall is about 0.41 against 0.626 per listing; probably because large
 groups contribute many pairs (untested).
-- **False matches** (the four highest-scoring wrong pairs): [confirm
-  against your figure] rolls of bubble wrap in near-identical photos with
+- **False matches** (the four highest-scoring wrong pairs): rolls of bubble wrap in near-identical photos with
   different group labels. These are the worst cases, not typical ones.
 - **Missed matches** (a random sample of true pairs below the threshold):
   [confirm] the same product in different compositions: plain photo against
