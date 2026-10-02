@@ -83,3 +83,29 @@ matches: Ecolink 6W vs 8W (text 1.00, image 0.99) and extra-bubble-wrap
 listings in different groups. Several misses have a confident text score and
 a low image score (Salsa Dynamatte lip cream), which averaging dilutes.
 Next: Experiment 3 (variant-aware penalty), then README and report.
+
+## 2026-10-02: F1 by true group size
+>> Hypothesis:
+- fusion should help in every group-size bucket, because text and image fail
+  on different listings
+- image alone should be weakest on big groups, where one product has many
+  different photos
+- text alone should be weakest on small groups with short or oddly worded
+  titles
+
+>> Setup: val pool, per-listing F1 averaged within buckets of true group size
+(2, 3, 4-5, 6-10, 11+), at the val-chosen thresholds (text 0.43, image 0.79,
+fusion 0.52).
+
+>> Result: text 0.803 / 0.780 / 0.787 / 0.762 / 0.686; image 0.765 / 0.706 /
+0.691 / 0.638 / 0.486; fusion 0.858 / 0.865 / 0.882 / 0.861 / 0.766 (listings
+2,106 / 735 / 966 / 681 / 627).
+
+>> Observation: the first two expectations held. The third did not: text was
+best on pairs and weakest on the largest groups (0.686). Fusion helped most
+for groups of 6 to 10 (+0.099 over text) and least for pairs (+0.054). The
+11+ bucket comes from at most about 57 groups, so it is noisy. A single
+global threshold is a plausible cause of the weaker large groups; not
+measured.
+
+>> Next: README and report, then push.
