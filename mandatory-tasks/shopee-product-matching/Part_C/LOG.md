@@ -105,3 +105,59 @@ responds to layout and background.
 
 Both failure types match Part A: reused photos across variants, and one
 product shown in very different images.
+
+## Experiment 3: fine-tuning ResNet50 on the group labels
+
+**Motivation.** The frozen ImageNet features respond to composition and
+background and have no notion of "the same product". The error analysis showed
+this: the same product in different compositions was missed, and generic items
+photographed alike were matched. Fine-tuning with the `label_group` labels
+should teach the embedding that photos of one product belong together.
+
+**Setup.**
+- Training data: the train split only (23,724 images, 7,709 groups). Each
+  group is a class, used only as a training signal. Val and test products are
+  never seen in training, so the evaluation still measures matching of unseen
+  products.
+- Only the last block of ResNet50 (`layer4`, about 15 M parameters) is
+  trained. The earlier blocks stay frozen, which is faster and overfits less.
+- Loss: ArcFace, which adds an angular margin to the correct group's angle so
+  that same-group embeddings are pulled together.
+- Augmentation: random crop, horizontal flip and small colour jitter.
+- Val F1 is checked after every epoch, and the best epoch is kept. The
+  threshold is chosen on val and test is run once.
+
+**Attempt 1 failed.** The embeddings collapsed: on val the similarity between
+different images had a mean of 0.995 (minimum 0.94), and F1 was 0.476, barely
+above the floor of 0.4629 and far below the frozen 0.6917. The epoch log was not
+saved, and I did not diagnose the cause.
+
+**Attempt 2 changes** (standard remedies, not proven to be the cause): a
+projection layer (2048 to 512 numbers with BatchNorm) before the ArcFace head;
+a margin that ramps from 0 to 0.3 over the first epoch; a lower learning rate
+for `layer4` (5e-5); and a monitor that stops training if the mean cosine
+between embeddings in a batch exceeds 0.95.
+
+
+## 2026-10-02: Experiment 3b, fine-tune layer4 with ArcFace (attempt 2)
+
+>> Setup: ResNet50 ImageNet weights, layer4 trainable (15.0 M parameters), a
+projection layer (2048 to 512, BatchNorm), ArcFace head (s = 30), margin
+ramped 0 to 0.3 during epoch 1, AdamW (layer4 5e-5, projection and head
+1e-3), cosine schedule, 4 epochs, mixed precision, random crop / flip /
+colour jitter, val checked every epoch.
+
+>> Result: mean train loss 9.005, 4.843, 1.919, 1.067; best val F1 by epoch
+0.7494, 0.7648, 0.7720, 0.7729 (coarse grid); refined: 0.7733 at threshold
+0.445, precision 0.909, recall 0.752 (frozen: 0.6917, 0.938, 0.626). About
+171 s per epoch. Val similarity min / mean / max -0.287 / 0.003 / 1.0.
+
+>> Observation: no collapse; fine-tuning raised val F1 by 0.082 and closes
+about 58% of the floor-to-perfect gap (frozen 43%), close to text alone
+(0.777). Gains flatten by epoch 3. I changed the projection layer, margin
+ramp and learning rate together, so I did not isolate which fixed attempt
+1. The "mean batch cos" monitor stayed at -0.015 throughout, which
+BatchNorm forces regardless of collapse, so it was not informative.
+
+>> Next: run test once with threshold 0.445, then use the fine-tuned
+embeddings in the Finale.
