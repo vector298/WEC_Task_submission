@@ -84,7 +84,42 @@ pairs through. In aggregate I found no better matching. I did not inspect
 individual pairs, so character features may still link specific truncation
 cases, and I did not check whether they separate RT100Q from RT130.
 
->> Next: use word TF-IDF fitted on val as the final method (same performance,
-simpler, scores explainable by shared words), run the precision, recall and
-F1 threshold analysis, fix the threshold on val, and report on test once.
 
+## 2026-10-02: Experiment 4, multilingual sentence embeddings
+>> Hypothesis: embeddings will link titles with similar meaning but no shared
+words, so recall should rise over word TF-IDF at similar precision; they may
+do worse on titles that differ only by a code or size.
+
+>> Setup: paraphrase-multilingual-MiniLM-L12-v2, normalised embeddings of the
+val titles, cosine similarity, thresholds 0.30 to 0.95.
+
+>> Result: best val F1 0.6424 at 0.75 (word TF-IDF: 0.7770; floor 0.4629).
+
+>> Observation: the hypothesis was not supported; the precision-recall curve is
+below word TF-IDF from recall 0.5 onward. On a random sample of 400,000 val
+pairs (333 true), unrelated pairs scored a mean 0.219 with embeddings
+against 0.004 with TF-IDF (99th percentile 0.557 against 0.103), so
+different products sit close together. One pretrained model with no
+fine-tuning; other models were not tried.
+
+>>Next: threshold analysis and the final test run for word TF-IDF.
+
+
+## 2026-10-02:  threshold analysis and final test run
+
+>> Hypothesis: the val-chosen threshold will give a test F1 close to val's
+0.777, perhaps slightly lower, since test has larger groups.
+
+>> Setup: word TF-IDF fitted on val for the analysis; the final threshold 0.43
+is the val F1 maximum over 0.30 to 0.50 in steps of 0.01. Test: vectoriser
+fitted on the test titles, threshold 0.43, a single run.
+
+>> Result: val F1 0.7770 at 0.43. Test F1 0.7741 against a test floor of
+0.4401.
+
+>> Observation: test was 0.003 below val, within what a different set of groups
+could produce. Precision and recall cross near 0.39; at 0.95 recall is
+0.370, only about 0.05 above the 0.323 that predicting only the listing
+itself gives. Nothing was changed after seeing the test result.
+
+>> Next: README and push; then Part C.
