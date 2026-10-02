@@ -71,7 +71,7 @@ fair. Same threshold sweep (0.20 to 0.95, steps of 0.05) on val.
 Result: best val F1 0.7774 at threshold 0.45 (experiment 2, word TF-IDF
 fitted on val: 0.7763 at 0.40). At a fixed threshold of 0.45, per-listing
 precision / recall: word 0.878 / 0.774, character n-grams 0.839 / 0.810.
-Observation: the direction of the hypothesis held at 0.45: recall rose by
+>> Observation: the direction of the hypothesis held at 0.45: recall rose by
 0.036 and precision fell by 0.039, so F1 barely moved (+0.0011, too small
 to call a gain from one split). I then plotted precision against recall
 over all thresholds for both methods. The curves overlap from recall 0.4 to
@@ -81,7 +81,8 @@ more easily, giving higher similarity scores, so a fixed cutoff lets more
 pairs through. In aggregate I found no better matching. I did not inspect
 individual pairs, so character features may still link specific truncation
 cases, and I did not check whether they separate RT100Q from RT130.
-Next: use word TF-IDF fitted on val as the final method (same performance,
+
+>> Next: use word TF-IDF fitted on val as the final method (same performance,
 simpler, scores explainable by shared words), run the precision, recall and
 F1 threshold analysis, fix the threshold on val, and report on test once.
 
