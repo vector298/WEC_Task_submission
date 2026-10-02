@@ -185,3 +185,24 @@ was changed after seeing the result.
 
 >> Next: error analysis of the fine-tuned model, README, then the Finale with
 the new embeddings.
+
+
+## 2026-10-02: error analysis of the fine-tuned model
+Hypothesis:
+- fine-tuning should find more true pairs without adding many false matches
+- it should not fix identical photos shared across groups (the bubble wrap
+  cluster)
+- the pairs it still misses should be ones whose photos genuinely differ
+Setup: val pool, unordered pairs; frozen at threshold 0.79, fine-tuned at
+0.445; three nearest-neighbour queries (same seed as the frozen figure).
+Result: frozen 4,516 correct / 1,422 false / 6,495 missed; fine-tuned
+6,411 / 1,500 / 4,600. Fine-tuning removed 1,009 false matches, introduced
+1,087, found 1,930 pairs the frozen model missed and lost 35. Top four false
+matches: all one pair of bubble-wrap groups, similarity about 1.00 under
+both models. Neighbours in the top 5 (three queries): frozen 4 of 11,
+fine-tuned 7 of 11.
+Observation: fine-tuning raised correct pairs by 42% with false matches up
+5%, but mostly swapped its false matches for different ones. Identical
+photos in different groups stay unfixable. Several misses have clearly
+matching titles and different photos, which a text signal would link.
+Next: update the README, then the Finale with the fine-tuned embeddings.
