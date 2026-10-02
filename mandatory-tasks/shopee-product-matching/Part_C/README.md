@@ -98,7 +98,7 @@ MB for 5,115 images but 4.69 GB for all 34,250; embedding took 69 s
 minutes extrapolated to all images at the same speed. Larger pools need
 chunked or approximate nearest-neighbour search (not tried).
 
-## Not done
+## Experiment 3
 Fine-tuning a vision model, other architectures, approximate nearest-neighbour
 search, repeating runs over several splits.
 
