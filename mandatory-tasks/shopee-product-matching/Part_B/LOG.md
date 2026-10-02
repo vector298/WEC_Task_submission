@@ -65,10 +65,10 @@ word but share letters, such as truncations ("tablets" vs "tab") and
 spelling variants ("mermed" vs "mermaid"), so recall should rise. They may
 also add false matches between similar-looking brand names, and they will
 not separate model-code variants like RT100Q and RT130.
-Setup: TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4),
+>> Setup: TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 4),
 lowercase=True), fitted on val.title like experiment 2 so the comparison is
 fair. Same threshold sweep (0.20 to 0.95, steps of 0.05) on val.
-Result: best val F1 0.7774 at threshold 0.45 (experiment 2, word TF-IDF
+>> Result: best val F1 0.7774 at threshold 0.45 (experiment 2, word TF-IDF
 fitted on val: 0.7763 at 0.40). At a fixed threshold of 0.45, per-listing
 precision / recall: word 0.878 / 0.774, character n-grams 0.839 / 0.810.
 >> Observation: the direction of the hypothesis held at 0.45: recall rose by
