@@ -58,6 +58,7 @@ run each.
 splits (72.5% val, 73.4% test). A and B reproduce Parts B and C exactly.
 
 ## 2026-10-02: error analysis of the final system
+
 >> Hypothesis:
 - fusion should remove many of text's false matches (images separate
   products with different photos) and recover pairs text misses
