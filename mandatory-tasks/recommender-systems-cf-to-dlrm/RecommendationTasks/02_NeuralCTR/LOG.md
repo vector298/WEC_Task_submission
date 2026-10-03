@@ -61,3 +61,27 @@ ranking is worse on test, not only the scale. The missing-rate gaps of up to
 likely differs from train.csv; I did not show that this explains the drop.
 
 >> Next: README, commit, then Task 03 on the same split.
+
+
+## 2026-10-03: baseline rerun on Colab CPU
+>> Hypothesis:
+- the same code and seed should give the same results on a different
+  machine; the sweep and selected model are checked against the earlier run
+Setup: notebook rerun on Google Colab, CPU only (python 3.13.15, torch
+2.11.0+cpu).
+
+>> Result: sweep table, selected model F (val PR-AUC 0.1014, test PR-AUC
+0.0647) and the split fingerprint reproduce the earlier numbers exactly.
+The baseline does not: best epoch 2 gives val ROC-AUC 0.7366, PR-AUC 0.1049,
+log loss 0.1300, F1 0.1778 at threshold 0.07 (earlier Kaggle GPU run: 0.7179,
+0.0993, 0.1313, 0.1667 at 0.075).
+
+>> Observation: the earlier baseline was probably the only run on GPU; random
+streams differ between devices, so the same seed gives different results.
+The device effect on PR-AUC (0.0056) is as large as the whole spread across
+architectures. This notebook's CPU numbers are the ones reported. Note that
+the baseline's seed-42 run (0.1049) beat the selected model's seed-42 run
+(0.1014); selection used three-seed means, where F leads (0.1036 against
+0.0994), and both gaps are within noise.
+
+>> Next: update README, commit, then Task 03 on the same hardware.
