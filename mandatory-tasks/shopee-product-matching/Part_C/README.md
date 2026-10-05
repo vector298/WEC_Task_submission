@@ -3,7 +3,7 @@
 Matching listings that are the same product using images only.
 
 ## Contents
-- `Part-C-notebook.ipynb`: preprocessing, frozen and fine-tuned embeddings, CLIP,
+- `notebook.ipynb`: preprocessing, frozen and fine-tuned embeddings, CLIP,
   phash reference, nearest-neighbour and error analysis (Kaggle, GPU)
 - `results/`: plots, error figures and the results table
 - `LOG.md`: timestamped experiment log
