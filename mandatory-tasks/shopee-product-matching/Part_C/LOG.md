@@ -10,10 +10,10 @@ Next:
 -->
 
 ## 2026-10-02: baseline, ResNet50 image embeddings + cosine
->> Hypothesis: [your prediction. Mine would be: image similarity will score
+>> Hypothesis: image similarity will score
 below word TF-IDF (val 0.777), because sellers reuse one photo across
 variants and one product has very different photos, but it should link
-some listings whose titles share no words.]
+some listings whose titles share no words.
 
 >> Setup: torchvision ResNet50 (ImageNet weights), classifier head removed,
 2048-d pooled features, L2-normalised, val images only (frozen model, so
