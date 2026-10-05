@@ -45,3 +45,29 @@ sigma, comparable to the real per-step change.
 
 >> Next: per-damping breakdown, longer training, and what helps the Neural ODE under noise (weight decay,
 network size, seed spread at sigma 0.1).
+
+
+## 2026-10-05: Neural ODE versus LSTM: longer training, breakdown, and noise mitigation
+
+>> Setup: per-damping and per-trajectory relative-error breakdown of the 300-epoch models; both models retrained
+for 1200 epochs (same budget each; chosen because the training loss was still falling, after seeing the
+300-epoch test numbers); at sigma 0.1 the Neural ODE was retrained with weight decay 1e-3, hidden 16, hidden
+128, and two more seeds of the baseline.
+
+>> Result: 1200 epochs (376 s Neural ODE, 179 s LSTM): training loss 0.0267 (300 epochs: 0.0727); test RMSE 0 to 10 s
+/ 10 to 30 s: Neural ODE 0.179 / 0.289 (300 epochs: 0.381 / 0.672), LSTM 0.218 / 0.389 (0.612 / 0.802), zero
+predictor 1.544 / 0.661; 10 to 30 s low/high damping: Neural ODE 0.381 / 0.032, LSTM 0.514 / 0.014. 300-epoch
+models, relative error 10 to 30 s: Neural ODE median 0.90 (45% of trajectories worse than zero), LSTM median
+0.36 (12%); both fail on damping 0.072 and 0.095. Noise (sigma 0.1, 10 to 30 s): baseline seeds 0.610, 0.523,
+0.606 (spread 0.087); weight decay 0.569; hidden 16 0.654; hidden 128 0.642 (0 to 10 s: 0.376 to 0.395; 0.372;
+0.471; 0.415).
+
+>> Observation: the earlier result that the Neural ODE was no better than predicting zero came from undertraining;
+longer training cut extrapolation error by 57% (Neural ODE) and 52% (LSTM). At 1200 epochs the Neural ODE is
+56% below the zero predictor and 26% below the LSTM in extrapolation, though the LSTM is better on high
+damping and in the first seconds. At 300 epochs the winner depended on the metric (RMSE favoured the Neural ODE,
+per-trajectory relative error the LSTM). None of the noise mitigations helped beyond the seed spread; training
+longer was the bigger lever. The b = 0.072 trajectory lies below the training range, but b = 0.095 is inside
+and also fails.
+
+>> Next: README, commit.
