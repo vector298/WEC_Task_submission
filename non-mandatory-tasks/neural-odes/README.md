@@ -1,7 +1,7 @@
 # Neural ODEs: damped pendulum, Neural ODE against an LSTM baseline
 
 ## Contents
-- `notebook.ipynb`: data simulation, Neural ODE, LSTM baseline, extrapolation, noise and mitigation experiments (Kaggle, CPU)
+- `neural-ode-notebook.ipynb`: data simulation, Neural ODE, LSTM baseline, extrapolation, noise and mitigation experiments (Kaggle, CPU)
 - `results/`: `node_trajectories.png`, `node_vs_lstm.png`, `node_longer_training.png`, `node_noise.png`
 - `LOG.md`: timestamped experiment log
 
