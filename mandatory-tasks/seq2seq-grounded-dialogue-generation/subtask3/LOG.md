@@ -1,17 +1,20 @@
 ## 2026-10-05: subtask 3 first training run (12-epoch cap) and retrieval baseline
 
-Setup: Kaggle, one GPU; grounded and ungrounded models (embedding 256, hidden 256, dropout 0.3, Adam 1e-3,
+>> Setup: Kaggle, one GPU; grounded and ungrounded models (embedding 256, hidden 256, dropout 0.3, Adam 1e-3,
 batch 128, clipping 1.0, teacher forcing 1.0 down to 0.6), early stopping on validation loss, at most 12
 epochs; TF-IDF retrieval baseline over 7,855 training histories (9,102 features).
-Result: both models trained for the full 12 epochs with validation loss falling at every epoch: grounded
+
+>> Result: both models trained for the full 12 epochs with validation loss falling at every epoch: grounded
 6.185 to 5.446 (perplexity 232), ungrounded 6.120 to 5.283 (perplexity 197); train loss 5.726 and 5.448 at
 epoch 12; about 9 s and 5 s per epoch. The retrieval baseline built in 1 s.
-Observation: the 12-epoch cap was too low (both models underfitted; I had predicted early overfitting). At
+
+>> Observation: the 12-epoch cap was too low (both models underfitted; I had predicted early overfitting). At
 equal budget the ungrounded model has the lower validation loss, contrary to my hypothesis; a plausible but
 untested reason is that the grounded model has more to learn and trains more slowly. Both models are
 retrained with an 80-epoch cap and the same early stopping before the test set is used. The test set has
 not been evaluated yet.
-Next: retrain with the longer cap, then the test evaluation once.
+
+>> Next: retrain with the longer cap, then the test evaluation once.
 
 ## 2026-10-05: subtask 3 longer training, test evaluation, document-swap test
 
