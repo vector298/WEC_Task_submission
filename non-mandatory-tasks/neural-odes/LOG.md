@@ -7,12 +7,14 @@ damping; 2 x 64 tanh; 4,546 parameters), hand-written RK4 with dt 0.05, backprop
 300 epochs with a window curriculum (40, 100, 200 steps), Adam 3e-3 with cosine decay. Baseline: 2-layer LSTM
 (51,074 parameters) predicting the next-state change, teacher-forced on the training window, rolled out
 autoregressively. Same inputs for both. CPU. A zero predictor is the reference.
+
 >> Result: solver check 3.7e-4. Test RMSE (0 to 10 s / 10 to 30 s): zero predictor 1.544 / about 0.661; Neural ODE
 0.381 / 0.672; LSTM 0.612 / 0.802. 10 to 30 s by damping half (low 24 trajectories / high 18): zero 0.861 /
 0.178; Neural ODE 0.883 / 0.120; LSTM 1.059 / 0.064. Worst absolute error 5.23 (Neural ODE), 6.73 (LSTM).
 Training: 101 s and 44 s; the Neural ODE loss was still falling (0.093 at epoch 251, 0.073 at epoch 300).
 Noise (sigma 0.02, 0.05; 0 to 10 s / 10 to 30 s): Neural ODE 0.400 / 0.705 and 0.350 / 0.537; LSTM 0.633 / 0.810
 and 0.719 / 0.821.
+
 >> Observation: the Neural ODE beats the LSTM overall (38% lower in-window, 16% lower in extrapolation) with 11
 times fewer parameters, but in extrapolation it is no better than predicting zero, and for low damping both
 models are worse than zero; on high damping the LSTM is better. For b = 0.072 the Neural ODE keeps the phase
@@ -20,6 +22,7 @@ but not the decay, and that value lies below the training range (0.083). Both mo
 Neural ODE is not monotonic in noise (better at sigma 0.05), probably run-to-run variation (one seed), so no
 claim that noise helps. The first hypothesis (fits the window well) and the second (clear extrapolation
 advantage) are only partly supported.
+
 >> Next: per-damping breakdown and relative error, longer training, then README.
 
 
