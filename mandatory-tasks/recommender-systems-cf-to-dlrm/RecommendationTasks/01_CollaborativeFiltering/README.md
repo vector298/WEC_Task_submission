@@ -1,7 +1,7 @@
 # Task 01: Collaborative Filtering (memory-based and matrix factorisation)
 
 ## Contents
-- `notebook.ipynb`: data exploration, split, baselines, memory-based CF, matrix
+- `collaborativefiltering-notebook.ipynb`: data exploration, split, baselines, memory-based CF, matrix
   factorisation from scratch, ranking metrics, test (Kaggle)
 - `results/`: figures and the results table
 - `LOG.md`: timestamped log
@@ -125,7 +125,7 @@ interpretability. Both have no information about a brand-new user or movie.
 - Cold start (new users or movies) was not studied beyond the baseline fallback.
 
 ## Reproduce
-Kaggle notebook, Internet on (the data is fetched from GroupLens). [hardware: CPU
-or GPU accelerator setting; the code is numpy and runs on the CPU]. [paste the
-versions and seeds lines printed by cell 10]. Seeds: split 42; MF 42, 43, 44 (final
-model 42). The whole notebook takes about 25 minutes.
+Kaggle notebook with Internet on (the data is fetched from GroupLens). The code is numpy and pandas and ran on
+the CPU (accelerator: none). Package versions were not recorded; the default Kaggle environment of early October
+2026 was used. Seeds: split 42; MF 42, 43, 44 (final model 42). The whole notebook takes about 25 minutes (the
+matrix-factorisation grid about 10 minutes).
