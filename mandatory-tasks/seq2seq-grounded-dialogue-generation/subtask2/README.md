@@ -99,7 +99,17 @@ implementation.)
   rivière `<unk>` dans groenland groenland." (a repeated word and a grammar error; beam 5 gives "c'est la
   rivière `<unk>` dans le groenland du groenland", still repeating). Sampled outputs hallucinate ("il se
   connecte dans hiver", "19ème nord").
-- **Attention maps.** 
+- **Attention maps** (`results/s2_attention.png`; two validation sentences, greedy output). The weights follow a
+  rough diagonal and align content words with their translations: rivière with river, dans with in, groenland with
+  greenland, pétrole with oil, problème with problem, charbon with coal, sérieux with serious, and the final
+  "." with ".". Where French order differs from English the weights reorder locally: for "the <unk> river" the
+  output "la rivière <unk>" has "rivière" attending to "river" and the following "<unk>" attending to both
+  "<unk>" and "river". Function words spread their attention over neighbours ("voici" over "this is the", then
+  "est" on "the"; "le" and "pétrole" both on "oil"). Two failure modes are visible: the two generated "groenland"
+  tokens both attend to the same source word "greenland" (the model has no coverage mechanism, which fits the
+  repeated word), and the generated "<unk>" attends to the source "<unk>" and "river", so the rare word's
+  identity is already lost at the input. Attention weights show where the model looked, not necessarily why it
+  produced a word. 
 
 ## Limitations
 One seed per model; the baseline was still improving at the end of its budget while attention had plateaued,
