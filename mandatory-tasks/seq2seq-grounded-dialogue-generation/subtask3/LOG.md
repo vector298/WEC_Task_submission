@@ -39,3 +39,22 @@ lowest overlap. BLEU is below 1 for every system, so ROUGE-L is the more usable 
 code-mixing split put 810 of 933 examples in one group and 35 in the other, so it is recomputed with terciles.
 
 >> Next: extra diagnostics (best epochs, terciles, grounding counts), README.
+
+## 2026-10-05: subtask 3 diagnostics
+
+>> Setup: best epochs and losses from the training logs; test predictions re-sliced by terciles of the code-mixing
+proxy (no retraining, no test-set tuning); counts of content words and distinct replies per system.
+
+>> Result: grounded 23 epochs, best epoch 21, validation loss 5.161 (perplexity 174.3), train loss 4.680;
+ungrounded 22 epochs, best epoch 20, 5.114 (166.3), 4.954. Proxy terciles 0.20 and 0.37: lowest third (341
+examples) ROUGE-L retrieval 0.064, ungrounded 0.106, grounded 0.110; highest third (313) 0.064, 0.099, 0.098.
+Replies with at least one content word: retrieval 87.1%, ungrounded 2.8%, grounded 10.1%, references 92.7%;
+share of content words found in the document: 0.057, 0.000, 0.125, 0.108. Distinct replies of 933: retrieval 485,
+ungrounded 360, grounded 485; most common generated replies "kya" and "mujhe , hai ki hai".
+
+>> Observation: the document-use evidence rests on about 10% of the grounded model's replies; the generators
+mostly emit frequent words only. The grounded model has the lower train loss and higher validation loss
+(more overfitting). The code-mixing split shows no meaningful difference (about 0.01 ROUGE-L). The earlier
+statement that the grounded model "uses the document" stands but is qualified by the small sample.
+
+>> Next: commit subtask 3.
